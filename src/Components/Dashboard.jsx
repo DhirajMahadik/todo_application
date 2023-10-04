@@ -152,7 +152,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {tasks.length > 1 ? tasks.map((element, index) => {
+                {tasks.length >= 1 ? tasks.map((element, index) => {
                   return <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{element.task}</td>
