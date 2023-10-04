@@ -64,8 +64,8 @@ const CompletedTask = () => {
 
   return (
     <>
-      <Navbar />
       {showAlert && <CustomAlert type={alert.type} message={alert.message} close = {()=> setShowAlert(false)} />}
+      <Navbar />
       <div className='container py-4'>  
         <div className='tasks d-flex flex-column'>
           <div className='py-3'>

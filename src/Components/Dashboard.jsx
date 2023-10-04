@@ -129,8 +129,8 @@ const Dashboard = () => {
   return (
     <>
     {showEditDialog &&  <EditTask data={editData} onClose={()=> setShowEditDialog(false)} updateChange={updateChange} updateTask={updateTask}/>}
-      <Navbar />
       {showAlert && <CustomAlert type={alert.type} message={alert.message} close = {()=> setShowAlert(false)} />}
+      <Navbar />
       <div className='container py-4'>
         <div className='addTaskForm d-flex'>
           <form onSubmit={addTask} className='d-flex m-auto w-50'>
