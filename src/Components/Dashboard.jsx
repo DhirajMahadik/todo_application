@@ -17,8 +17,6 @@ const Dashboard = () => {
   const navigate = useNavigate()
   let auth_token = localStorage.getItem('auth_token')
 
-  console.log(editData)
-
   const getUsersTask = () => {
     if (auth_token) {
       axios({ method: 'POST', url: 'http://127.0.0.1:5500/api/tasks', headers: { 'authorization': `Bearer ${JSON.parse(auth_token)}` } })
@@ -35,7 +33,6 @@ const Dashboard = () => {
 
         })
     } else {
-      console.log('token not found')
       navigate('/')
     }
   }

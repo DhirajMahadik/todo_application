@@ -23,8 +23,6 @@ const Register = () => {
         if (user.password === user.confirmPasword) {
             axios.post('http://127.0.0.1:5500/api/register', user)
             .then((response) => {
-                console.log(response)
-                // alert('Registration successfull')
                 if (response.data.affectedRows === 1) {
                     setAlert({ type: 'success', message: 'Registration successfull' })
                     setShowAlert(true)
@@ -39,7 +37,6 @@ const Register = () => {
                     }, 2000)
                 }
             }).catch((error) => {
-                console.log(error)
                 let errorMsg = error.response.data.error
                 setAlert({ type: 'danger', message: errorMsg })
                 setShowAlert(true)

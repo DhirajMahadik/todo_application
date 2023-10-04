@@ -29,7 +29,6 @@ const CompletedTask = () => {
 
         })
     } else {
-      console.log('token not found')
       navigate('/')
     }
   }
@@ -53,7 +52,6 @@ const CompletedTask = () => {
 
         })
     } else {
-      console.log('token not found')
       navigate('/')
     }
   }
