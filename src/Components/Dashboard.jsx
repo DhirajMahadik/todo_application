@@ -45,6 +45,7 @@ const Dashboard = () => {
     axios({ method: 'POST', url: 'http://127.0.0.1:5500/api/add-task', data: { task: newTask }, headers: { 'Authorization': `Bearer ${JSON.parse(auth_token)}` } }).then((response) => {
       setAlert({ type: 'success', message: response.data.message })
       setShowAlert(true)
+      setNewTask('')
       getUsersTask()
       setTimeout(() => {
         setShowAlert(false)
@@ -87,6 +88,41 @@ const Dashboard = () => {
       }, 4000)
     })
   }
+  const completeTask = (e) => {
+    axios({ method: 'POST', url: 'http://127.0.0.1:5500/api/complete-task', data: {task:e.task , task_id : e.task_id  }, headers: { 'Authorization': `Bearer ${JSON.parse(auth_token)}` } }).then((response) => {
+      setAlert({ type: 'success', message: response.data.message })
+      setShowAlert(true)
+      getUsersTask()
+      setShowEditDialog(false)
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000)
+    }).catch((error) => {
+      setAlert({ type: 'danger', message: error.response.data.error })
+      setShowAlert(true)
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000)
+    })
+  }
+
+  const deleteTask = (e) => {
+    axios({ method: 'POST', url: 'http://127.0.0.1:5500/api/delete-task', data: { task_id : e.task_id  }, headers: { 'Authorization': `Bearer ${JSON.parse(auth_token)}` } }).then((response) => {
+      setAlert({ type: 'success', message: response.data.message })
+      setShowAlert(true)
+      getUsersTask()
+      setShowEditDialog(false)
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000)
+    }).catch((error) => {
+      setAlert({ type: 'danger', message: error.response.data.error })
+      setShowAlert(true)
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000)
+    })
+  }
 
   useEffect(() => {
     getUsersTask();
@@ -97,20 +133,20 @@ const Dashboard = () => {
     <>
     {showEditDialog &&  <EditTask data={editData} onClose={()=> setShowEditDialog(false)} updateChange={updateChange} updateTask={updateTask}/>}
       <Navbar />
-      {showAlert && <CustomAlert type={alert.type} message={alert.message} />}
+      {showAlert && <CustomAlert type={alert.type} message={alert.message} close = {()=> setShowAlert(false)} />}
       <div className='container py-4'>
         <div className='addTaskForm d-flex'>
           <form onSubmit={addTask} className='d-flex m-auto w-50'>
-            <input className='form-control' type="text" placeholder='Task' name='task' onChange={(e) => setNewTask(e.target.value)} />
+            <input className='form-control' type="text" placeholder='Task' name='task' value={newTask} onChange={(e) => setNewTask(e.target.value)} />
             <button type='submit' className='btn btn-success mx-2'>ADD</button>
           </form>
         </div>
-        <div className='tasks d-flex flex-column'>
+        <div className='tasks  d-flex flex-column'>
           <div className='py-3'>
             <h2 className='text-center'>Your pending tasks</h2>
           </div>
           <div>
-            <table className='table table-striped w-50 m-auto'>
+            <table className='table table-bordered table-striped w-75 text-center m-auto'>
               <thead>
                 <tr>
                   <th>Sr.NO</th>
@@ -123,10 +159,10 @@ const Dashboard = () => {
                   return <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{element.task}</td>
-                    <td> <PencilSquare color='gold' onClick={()=>setDataTobeEdited(element)} /> <Check color='green' size={30} className='mx-2' /> <TrashFill color='red' /></td>
+                    <td> <PencilSquare role='button' color='gold' onClick={()=>setDataTobeEdited(element)} /> <Check role='button' color='green' size={30} className='mx-2' onClick={()=>completeTask(element)} /> <TrashFill role='button' color='red'  onClick={()=>deleteTask(element)} /></td>
                   </tr>
                 }) : <tr>
-                  <td colSpan={2}>Please add some task</td>
+                  <td className='text-center' colSpan={3}>Please add some task</td>
                 </tr>}
 
               </tbody>

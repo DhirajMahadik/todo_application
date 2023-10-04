@@ -1,8 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link  , useNavigate} from 'react-router-dom'
 
 
 const Navbar = () => {
+
+    const navigate = useNavigate()
+
+    const logoutHandler = () =>{
+        localStorage.removeItem('auth_token')
+        navigate('/')
+    }
+
     return (
         <>
             <nav className="navbar nav-underline navbar-expand-lg bg-primary text-light">
@@ -14,14 +22,14 @@ const Navbar = () => {
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul className="navbar-nav mx-2 ">
                             <li className="nav-item ">
-                                <Link className="nav-link text-light fw-bold mx-1" to="#">Tasks</Link>
+                                <Link className="nav-link text-light fw-bold mx-1" to="/dashboard">Tasks</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link text-light fw-bold mx-1" to="#">Completed</Link>
+                                <Link className="nav-link text-light fw-bold mx-1" to="/completed-tasks">Completed</Link>
                             </li>
                         </ul>
                         <div className='mx-3 align-items-center'>
-                            <button className='btn btn-warning'>
+                            <button className='btn btn-warning' onClick={logoutHandler}>
                             Logout 
                             </button>
                         </div>
