@@ -133,7 +133,7 @@ const Dashboard = () => {
       <Navbar />
       <div className='container py-4'>
         <div className='addTaskForm d-flex'>
-          <form onSubmit={addTask} className='d-flex m-auto w-50'>
+          <form onSubmit={addTask} className='d-flex m-auto col-md-6'>
             <input className='form-control' type="text" placeholder='Task' name='task' value={newTask} onChange={(e) => setNewTask(e.target.value)} />
             <button type='submit' className='btn btn-success mx-2'>ADD</button>
           </form>

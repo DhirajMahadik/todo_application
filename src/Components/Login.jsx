@@ -17,7 +17,7 @@ const Login = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        axios.post('http://127.0.0.1:5500/api/login',user).then((response)=>{
+        axios.post('http://127.0.0.1:5500/api/auth/login',user).then((response)=>{
             localStorage.setItem('auth_token', JSON.stringify(response.data.token))
                     navigate('/dashboard')
     

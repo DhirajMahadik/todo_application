@@ -21,7 +21,7 @@ const Register = () => {
         e.preventDefault();
 
         if (user.password === user.confirmPasword) {
-            axios.post('http://127.0.0.1:5500/api/register', user)
+            axios.post('http://127.0.0.1:5500/api/auth/register', user)
             .then((response) => {
                 if (response.data.affectedRows === 1) {
                     setAlert({ type: 'success', message: 'Registration successfull' })
