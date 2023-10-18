@@ -1,15 +1,14 @@
 import axios from 'axios'
-import  { useEffect, useState,  } from 'react'
+import { useEffect, useState, } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Navbar from './Header/Navbar'
-import CustomAlert from './CustomAlert'
-import {ArrowRepeat} from 'react-bootstrap-icons'
+import Navbar from '../Header/Navbar'
+import { ArrowRepeat } from 'react-bootstrap-icons'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const CompletedTask = () => {
 
-  const [tasks,setTasks] = useState([])
-  const [alert, setAlert] = useState({ type: '', message: '' })
-  const [showAlert, setShowAlert] = useState(false);
+  const [tasks, setTasks] = useState([])
   let auth_token = localStorage.getItem('auth_token')
   const navigate = useNavigate()
 
@@ -19,60 +18,53 @@ const CompletedTask = () => {
         .then((response) => {
           setTasks(response.data)
         }).catch((error) => {
-          setAlert({ type: 'warning', message: error.response.data.error })
-          setShowAlert(true)
-          setTimeout(() => {
-            setShowAlert(false)
-            localStorage.removeItem('auth_token')
-            navigate('/')
-          }, 3000)
 
+          if (error.response) {
+            toast.error(error.response.data.error)
+          } else {
+            toast.error(error.message)
+          }
         })
     } else {
       navigate('/')
     }
   }
 
-  const clearCompletedTask = () =>{
+  const clearCompletedTask = () => {
     if (auth_token) {
-      axios({ method: 'POST', url: 'http://127.0.0.1:5500/api/clear-completed-tasks', headers: { 'authorization': `Bearer ${JSON.parse(auth_token)}` } })
+      axios({ method: 'POST', url: `${process.env.REACT_APP_URL}/api/clear-completed-tasks`, headers: { 'authorization': `Bearer ${JSON.parse(auth_token)}` } })
         .then((response) => {
-          setAlert({ type: 'success', message:response.data.message })
           getUsersCompletedTasks()
-          setShowAlert(true)
-          setTimeout(() => {
-            setShowAlert(false)
-          }, 3000)
+          toast.success(response.data.message)
         }).catch((error) => {
-          setAlert({ type: 'warning', message: error.response.data.error })
-          setShowAlert(true)
-          setTimeout(() => {
-            setShowAlert(false)
-          }, 3000)
-
+          if (error.response) {
+            toast.error(error.response.data.error)
+          } else {
+            toast.error(error.message)
+          }
         })
     } else {
       navigate('/')
     }
   }
-  
 
-  useEffect(()=>{
+
+  useEffect(() => {
     getUsersCompletedTasks()
     // eslint-disable-next-line
-  },[])
+  }, [])
 
   return (
     <>
-      {showAlert && <CustomAlert type={alert.type} message={alert.message} close = {()=> setShowAlert(false)} />}
+      <ToastContainer autoClose={1500} position='top-left' theme='light' />
       <Navbar />
-      <div className='container py-4'>  
+      <div className='container py-4'>
         <div className='tasks d-flex flex-column'>
           <div className='py-3'>
-            <h2 className='text-center'>Your completed tasks</h2> 
+            <h2 className='text-center'>Your completed tasks</h2>
           </div>
           <div className='my-2'>
-              <h6 className='text-center' role='button' onClick={clearCompletedTask}>Clear history <ArrowRepeat/></h6>
+            <h6 className='text-center' role='button' onClick={clearCompletedTask}>Clear history <ArrowRepeat /></h6>
           </div>
           <div>
             <table className='table table-striped table-bordered w-50 m-auto'>
@@ -96,10 +88,10 @@ const CompletedTask = () => {
             </table>
           </div>
         </div>
-       
+
       </div>
 
-     
+
     </>
   )
 }

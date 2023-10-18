@@ -1,8 +1,8 @@
 import {BrowserRouter,Route,Routes} from 'react-router-dom'
-import Login from './Components/Login';
-import Register from './Components/Register';
-import Dashboard from './Components/Dashboard';
-import CompletedTask from './Components/CompletedTask';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import CompletedTask from './pages/CompletedTask';
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle'
 
